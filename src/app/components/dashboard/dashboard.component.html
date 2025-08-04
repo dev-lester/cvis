@@ -1,0 +1,64 @@
+<div class="dashboard">
+  <h1>Dashboard</h1>
+
+  <div class="stats-grid">
+    <div class="stat-card">
+      <div class="stat-icon">👥</div>
+      <div class="stat-content">
+        <h3>{{ stats.total }}</h3>
+        <p>Total Patients</p>
+      </div>
+    </div>
+
+    <div class="stat-card">
+      <div class="stat-icon">✅</div>
+      <div class="stat-content">
+        <h3>{{ stats.active }}</h3>
+        <p>Active Patients</p>
+      </div>
+    </div>
+
+    <div class="stat-card">
+      <div class="stat-icon">⏸️</div>
+      <div class="stat-content">
+        <h3>{{ stats.inactive }}</h3>
+        <p>Inactive Patients</p>
+      </div>
+    </div>
+
+    <div class="stat-card">
+      <div class="stat-icon">📅</div>
+      <div class="stat-content">
+        <h3>{{ recentPatients.length }}</h3>
+        <p>Recent Visits</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="recent-patients">
+    <h2>Recent Patients</h2>
+    <div class="patient-list">
+      <div *ngFor="let patient of recentPatients" class="patient-item">
+        <div class="patient-info">
+          <h4>{{ patient.firstName }} {{ patient.lastName }}</h4>
+          <p>Last Visit: {{ patient.lastVisit }}</p>
+        </div>
+        <div class="patient-status" [class]="patient.status.toLowerCase()">
+          {{ patient.status }}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="quick-actions">
+    <h2>Quick Actions</h2>
+    <div class="action-buttons">
+      <button (click)="navigateToPatients()" class="btn-action">
+        📋 View All Patients
+      </button>
+      <button (click)="navigateToNewPatient()" class="btn-action primary">
+        ➕ Add New Patient
+      </button>
+    </div>
+  </div>
+</div>

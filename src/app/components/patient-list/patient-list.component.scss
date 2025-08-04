@@ -1,0 +1,131 @@
+.patient-list-container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+}
+h1 {
+  color: #2c3e50;
+  margin: 0;
+}
+.btn-primary {
+  background: #3498db;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s;
+}
+.btn-primary:hover {
+  background: #2980b9;
+}
+.search-filter {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+.search-input,
+.filter-select {
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-size: 14px;
+}
+.search-input {
+  flex: 1;
+  min-width: 300px;
+}
+.filter-select {
+  min-width: 150px;
+}
+.patients-table {
+  background: white;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+th,
+td {
+  padding: 15px;
+  text-align: left;
+  border-bottom: 1px solid #ecf0f1;
+}
+th {
+  background: #f8f9fa;
+  font-weight: 600;
+  color: #2c3e50;
+}
+.status-badge {
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 0.8em;
+  font-weight: bold;
+}
+.status-badge.active {
+  background: #d5f4e6;
+  color: #27ae60;
+}
+.status-badge.inactive {
+  background: #fadbd8;
+  color: #e74c3c;
+}
+.actions {
+  display: flex;
+  gap: 8px;
+}
+.btn-view,
+.btn-edit,
+.btn-delete {
+  padding: 6px 12px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 12px;
+  transition: background-color 0.3s;
+}
+.btn-view {
+  background: #3498db;
+  color: white;
+}
+.btn-view:hover {
+  background: #2980b9;
+}
+.btn-edit {
+  background: #f39c12;
+  color: white;
+}
+.btn-edit:hover {
+  background: #e67e22;
+}
+.btn-delete {
+  background: #e74c3c;
+  color: white;
+}
+.btn-delete:hover {
+  background: #c0392b;
+}
+.no-patients {
+  padding: 40px;
+  text-align: center;
+  color: #7f8c8d;
+  font-style: italic;
+}
+@media (max-width: 768px) {
+  .patients-table {
+    overflow-x: auto;
+  }
+  table {
+    min-width: 800px;
+  }
+}

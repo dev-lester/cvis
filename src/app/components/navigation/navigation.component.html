@@ -1,0 +1,13 @@
+<nav class="navbar">
+  <div class="nav-brand">
+    <h3>Radiology Management</h3>
+  </div>
+  <div class="nav-links">
+    <a routerLink="/dashboard" routerLinkActive="active">Dashboard</a>
+    <a routerLink="/patients" routerLinkActive="active">Patient List</a>
+    <div class="user-menu">
+      <span>Welcome, {{ authService.getCurrentUser() }}</span>
+      <button (click)="logout()" class="btn-logout">Logout</button>
+    </div>
+  </div>
+</nav>

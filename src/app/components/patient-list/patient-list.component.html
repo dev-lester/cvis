@@ -1,0 +1,74 @@
+<div class="patient-list-container">
+  <div class="header">
+    <h1>Patient List</h1>
+    <button (click)="addNewPatient()" class="btn-primary">
+      ➕ Add New Patient
+    </button>
+  </div>
+
+  <div class="search-filter">
+    <input
+      type="text"
+      [(ngModel)]="searchTerm"
+      (input)="filterPatients()"
+      placeholder="Search patients..."
+      class="search-input"
+    />
+    <select
+      [(ngModel)]="statusFilter"
+      (change)="filterPatients()"
+      class="filter-select"
+    >
+      <option value="">All Status</option>
+      <option value="Active">Active</option>
+      <option value="Inactive">Inactive</option>
+    </select>
+  </div>
+
+  <div class="patients-table">
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Date of Birth</th>
+          <th>Gender</th>
+          <th>Phone</th>
+          <th>Email</th>
+          <th>Last Visit</th>
+          <th>Status</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let patient of filteredPatients">
+          <td>{{ patient.firstName }} {{ patient.lastName }}</td>
+          <td>{{ patient.dateOfBirth | date }}</td>
+          <td>{{ patient.gender }}</td>
+          <td>{{ patient.phone }}</td>
+          <td>{{ patient.email }}</td>
+          <td>{{ patient.lastVisit | date }}</td>
+          <td>
+            <span class="status-badge" [class]="patient.status.toLowerCase()">
+              {{ patient.status }}
+            </span>
+          </td>
+          <td class="actions">
+            <button (click)="viewPatient(patient.id)" class="btn-view">
+              View
+            </button>
+            <button (click)="editPatient(patient.id)" class="btn-edit">
+              Edit
+            </button>
+            <button (click)="deletePatient(patient.id)" class="btn-delete">
+              Delete
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div *ngIf="filteredPatients.length === 0" class="no-patients">
+      No patients found matching your criteria.
+    </div>
+  </div>
+</div>

@@ -1,0 +1,68 @@
+<div class="login-container">
+  <div class="login-card">
+    <div class="login-header">
+      <h2>Cardiology Information System</h2>
+      <p>Please sign in to continue</p>
+    </div>
+
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" ngForm>
+      <div class="form-group">
+        <label for="username">Username</label>
+        <input
+          type="text"
+          id="username"
+          formControlName="username"
+          class="form-control"
+          [class.error]="
+            loginForm.get('username')?.invalid &&
+            loginForm.get('username')?.touched
+          "
+        />
+        <div
+          *ngIf="
+            loginForm.get('username')?.invalid &&
+            loginForm.get('username')?.touched
+          "
+          class="error-message"
+        >
+          Username is required
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input
+          type="password"
+          id="password"
+          formControlName="password"
+          class="form-control"
+          [class.error]="
+            loginForm.get('password')?.invalid &&
+            loginForm.get('password')?.touched
+          "
+        />
+        <div
+          *ngIf="
+            loginForm.get('password')?.invalid &&
+            loginForm.get('password')?.touched
+          "
+          class="error-message"
+        >
+          Password is required
+        </div>
+      </div>
+
+      <div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>
+
+      <button type="submit" class="btn-primary" [disabled]="loginForm.invalid">
+        Sign In
+      </button>
+    </form>
+
+    <div class="demo-credentials">
+      <small>Demo Credentials:</small><br />
+      <small>Username: admin</small><br />
+      <small>Password: password123</small>
+    </div>
+  </div>
+</div>
