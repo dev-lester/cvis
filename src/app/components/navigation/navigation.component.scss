@@ -3,7 +3,13 @@
   top: 0;
   left: 0;
   right: 0;
-  background: #2c3e50;
+  background: #fcf0b4;
+  background: linear-gradient(
+    90deg,
+    rgba(252, 240, 180, 1) 0%,
+    rgba(245, 208, 210, 1) 44%,
+    rgba(240, 176, 245, 1) 100%
+  );
   color: white;
   padding: 0 20px;
   display: flex;
