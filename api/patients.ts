@@ -1,10 +1,10 @@
-import { VercelRequest, VercelResponse } from '@vercel/node';
-import * as fs from 'fs';
-import * as path from 'path';
+const fs = require('fs');
+const path = require('path');
 
-export default function handler(req: VercelRequest, res: VercelResponse) {
-  const filePath = path.join(__dirname, '..', 'db.json');
-  const jsonData = fs.readFileSync(filePath, 'utf-8');
+export default function handler(req: any, res: any) {
+  const filePath = path.join(process.cwd(), 'mock-data', 'db.json');
+  const jsonData = fs.readFileSync(filePath, 'utf8');
   const data = JSON.parse(jsonData);
+
   res.status(200).json(data);
 }
