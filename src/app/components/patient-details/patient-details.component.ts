@@ -69,8 +69,8 @@ export class PatientDetailsComponent implements OnInit {
       this.loadPatient();
     } else {
       // Set default image for new patients
-      this.currentImagePreview = 'default.jpg';
-      this.patientForm.patchValue({ imageResult: 'default.jpg' });
+      this.currentImagePreview = 'eco2.jpg';
+      this.patientForm.patchValue({ imageResult: 'eco2.jpg' });
     }
   }
 
@@ -79,7 +79,7 @@ export class PatientDetailsComponent implements OnInit {
       const patient = this.patientService.getPatientById(this.patientId);
       if (patient) {
         this.patientForm.patchValue(patient);
-        this.currentImagePreview = patient.imageResult || 'default.jpg';
+        this.currentImagePreview = patient.imageResult || 'eco2.jpg';
       } else {
         alert('Patient not found!');
         this.goBack();
@@ -113,8 +113,8 @@ export class PatientDetailsComponent implements OnInit {
   }
 
   removeImage(): void {
-    this.currentImagePreview = 'default.jpg';
-    this.patientForm.patchValue({ profileIMage: 'default.jpg' });
+    this.currentImagePreview = 'eco2.jpg';
+    this.patientForm.patchValue({ profileIMage: 'eco2.jpg' });
   }
 
   getTitle(): string {
@@ -174,9 +174,9 @@ export class PatientDetailsComponent implements OnInit {
     } else {
       this.patientForm.reset({
         status: 'Active',
-        imageResult: 'default.jpg',
+        imageResult: 'eco2.jpg',
       });
-      this.currentImagePreview = 'default.jpg';
+      this.currentImagePreview = 'eco2.jpg';
     }
   }
 

@@ -9,25 +9,33 @@ import { Patient } from '../models/patient.model';
 })
 export class PatientService {
   private readonly STORAGE_KEY = 'radiology_patients';
+  production = 'https://cvis.vercel.app/data';
+  url = 'http://localhost:3000/data';
 
   constructor(private http: HttpClient) {
     this.initializeSampleData();
   }
 
   private async initializeSampleData(): Promise<void> {
-    console.log('init');
     if (!localStorage.getItem(this.STORAGE_KEY)) {
       try {
-        const response = await firstValueFrom(
-          this.http.get<{ data: Patient[] }>('assets/mock-data.json')
-        );
-
-        const samplePatients = response.data;
+        const data = await fetch(this.url);
+        const samplePatients = (await data.json()) ?? [];
         this.savePatients(samplePatients);
       } catch (err) {
         console.log('Failed to load mock data:', err);
         this.savePatients([]);
       }
+      // try {
+      //   const response = await firstValueFrom(
+      //     this.http.get<{ data: Patient[] }>('assets/mock-data.json')
+      //   );
+      //   const samplePatients = response.data;
+      //   this.savePatients(samplePatients);
+      // } catch (err) {
+      //   console.log('Failed to load mock data:', err);
+      //   this.savePatients([]);
+      // }
     }
   }
 
