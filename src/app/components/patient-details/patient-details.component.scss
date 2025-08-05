@@ -129,6 +129,103 @@ label {
 .btn-danger:hover {
   background: #c0392b;
 }
+
+.image-upload-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+.current-image {
+  position: relative;
+  display: inline-block;
+}
+
+.image-preview {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 4px solid #3498db;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.btn-remove-image {
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: #e74c3c;
+  color: white;
+  border: none;
+  cursor: pointer;
+  font-size: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.3s;
+}
+
+.btn-remove-image:hover {
+  background: #c0392b;
+}
+
+.upload-area {
+  text-align: center;
+  padding: 20px;
+  border: 2px dashed #bdc3c7;
+  border-radius: 10px;
+  background: #f8f9fa;
+  transition: all 0.3s;
+}
+
+.upload-area:hover {
+  border-color: #3498db;
+  background: #e8f6f3;
+}
+
+.btn-upload {
+  background: #3498db;
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+  margin-bottom: 10px;
+  transition: background-color 0.3s;
+}
+
+.btn-upload:hover {
+  background: #2980b9;
+}
+
+.upload-hint {
+  color: #7f8c8d;
+  font-size: 12px;
+  margin: 0;
+}
+
+@media (max-width: 768px) {
+  .patients-table {
+    overflow-x: auto;
+  }
+  table {
+    min-width: 900px;
+  }
+  .profile-thumbnail {
+    width: 50px;
+    height: 50px;
+  }
+  .modal-content {
+    margin: 10px;
+    max-width: calc(100% - 20px);
+  }
+}
+
 @media (max-width: 768px) {
   .form-row {
     flex-direction: column;
@@ -146,3 +243,57 @@ label {
     flex-direction: column;
   }
 }
+
+.form-header {
+  display: flex;
+  flex-direction: row;
+  text-align: center;
+  align-items: center;
+  justify-content: space-between;
+  background: linear-gradient(
+    90deg,
+    rgba(252, 240, 180, 1) 0%,
+    rgba(245, 208, 210, 1) 44%,
+    rgba(240, 176, 245, 1) 100%
+  );
+  color: white;
+  padding: 20px;
+  height: 150px;
+  margin-bottom: 20px;
+}
+
+.form-header img {
+  width: 150px;
+}
+
+@media print {
+  * {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+}
+// @media print {
+//   .form-header {
+//     display: flex;
+//     flex-direction: row;
+//     text-align: center;
+//     align-items: center;
+//     justify-content: space-between;
+//     background: linear-gradient(
+//       90deg,
+//       rgba(252, 240, 180, 1) 0%,
+//       rgba(245, 208, 210, 1) 44%,
+//       rgba(240, 176, 245, 1) 100%
+//     );
+//     color: white;
+//     padding: 20px;
+//     height: 150px;
+//     margin-bottom: 20px;
+//     -webkit-print-color-adjust: exact !important;
+//     print-color-adjust: exact !important;
+//   }
+
+//   .form-header img {
+//     width: 150px;
+//   }
+// }

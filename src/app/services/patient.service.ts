@@ -1,18 +1,8 @@
 import { Injectable } from '@angular/core';
-
-interface Patient {
-  id: string;
-  firstName: string;
-  lastName: string;
-  dateOfBirth: string;
-  gender: string;
-  phone: string;
-  email: string;
-  address: string;
-  medicalHistory: string;
-  lastVisit: string;
-  status: 'Active' | 'Inactive';
-}
+// import TEST_DATA from '../data.json';
+import { firstValueFrom } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
+import { Patient } from '../models/patient.model';
 
 @Injectable({
   providedIn: 'root',
@@ -20,41 +10,24 @@ interface Patient {
 export class PatientService {
   private readonly STORAGE_KEY = 'radiology_patients';
 
-  constructor() {
+  constructor(private http: HttpClient) {
     this.initializeSampleData();
   }
 
-  private initializeSampleData(): void {
+  private async initializeSampleData(): Promise<void> {
+    console.log('init');
     if (!localStorage.getItem(this.STORAGE_KEY)) {
-      const samplePatients: Patient[] = [
-        {
-          id: '1',
-          firstName: 'John',
-          lastName: 'Doe',
-          dateOfBirth: '1985-03-15',
-          gender: 'Male',
-          phone: '+1-555-0123',
-          email: 'john.doe@email.com',
-          address: '123 Main St, City, State 12345',
-          medicalHistory: 'Hypertension, Diabetes',
-          lastVisit: '2024-01-15',
-          status: 'Active',
-        },
-        {
-          id: '2',
-          firstName: 'Jane',
-          lastName: 'Smith',
-          dateOfBirth: '1990-07-22',
-          gender: 'Female',
-          phone: '+1-555-0456',
-          email: 'jane.smith@email.com',
-          address: '456 Oak Ave, City, State 12345',
-          medicalHistory: 'Asthma',
-          lastVisit: '2024-01-20',
-          status: 'Active',
-        },
-      ];
-      this.savePatients(samplePatients);
+      try {
+        const response = await firstValueFrom(
+          this.http.get<{ data: Patient[] }>('assets/mock-data.json')
+        );
+
+        const samplePatients = response.data;
+        this.savePatients(samplePatients);
+      } catch (err) {
+        console.log('Failed to load mock data:', err);
+        this.savePatients([]);
+      }
     }
   }
 
@@ -73,6 +46,7 @@ export class PatientService {
     const newPatient: Patient = {
       ...patient,
       id: Date.now().toString(),
+      imageResult: patient.imageResult || 'assets/default.jpg',
     };
     patients.push(newPatient);
     this.savePatients(patients);

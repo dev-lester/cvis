@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { PatientService } from '../../services/patient.service';
@@ -16,6 +16,8 @@ export class PatientDetailsComponent implements OnInit {
   mode: 'view' | 'edit' | 'create' = 'create';
   isEditing = false;
   patientId: string | null = null;
+  currentImagePreview: string = '';
+  showWhenToggle: boolean = false;
 
   constructor(
     private fb: FormBuilder,
@@ -27,13 +29,29 @@ export class PatientDetailsComponent implements OnInit {
       firstName: ['', Validators.required],
       lastName: ['', Validators.required],
       dateOfBirth: ['', Validators.required],
-      gender: ['', Validators.required],
+      gender: [
+        { value: '', disabled: this.mode === 'view' },
+        Validators.required,
+      ],
+      studyDate: ['', Validators.required],
+      bloodPressure: ['', Validators.required],
+      rhythm: ['', Validators.required],
+      heartRate: ['', Validators.required],
+      ultrasoundTechnologist: ['', Validators.required],
+      orderingPhysician: ['', Validators.required],
+      indication: ['', Validators.required],
+      findings: ['', Validators.required],
+      conclusions: ['', Validators.required],
       phone: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
       address: [''],
       medicalHistory: [''],
       lastVisit: [''],
-      status: ['Active', Validators.required],
+      status: [
+        { value: '', disabled: this.mode === 'view' },
+        Validators.required,
+      ],
+      imageResult: [''],
     });
   }
 
@@ -49,6 +67,10 @@ export class PatientDetailsComponent implements OnInit {
 
     if (this.isEditing && this.patientId) {
       this.loadPatient();
+    } else {
+      // Set default image for new patients
+      this.currentImagePreview = 'default.jpg';
+      this.patientForm.patchValue({ imageResult: 'default.jpg' });
     }
   }
 
@@ -57,6 +79,7 @@ export class PatientDetailsComponent implements OnInit {
       const patient = this.patientService.getPatientById(this.patientId);
       if (patient) {
         this.patientForm.patchValue(patient);
+        this.currentImagePreview = patient.imageResult || 'default.jpg';
       } else {
         alert('Patient not found!');
         this.goBack();
@@ -64,10 +87,40 @@ export class PatientDetailsComponent implements OnInit {
     }
   }
 
+  onFileSelected(event: any): void {
+    const file = event.target.files[0];
+    if (file) {
+      // Validate file size (2MB limit)
+      if (file.size > 2 * 1024 * 1024) {
+        alert('File size must be less than 2MB');
+        return;
+      }
+
+      // Validate file type
+      if (!file.type.startWith('image/')) {
+        alert('Please select a valid image file');
+        return;
+      }
+
+      // Convert to base64 for straoge
+      const reader = new FileReader();
+      reader.onload = (e: any) => {
+        this.currentImagePreview = e.target.result;
+        this.patientForm.patchValue({ imageResult: e.target.result });
+      };
+      reader.readAsDataURL(file);
+    }
+  }
+
+  removeImage(): void {
+    this.currentImagePreview = 'default.jpg';
+    this.patientForm.patchValue({ profileIMage: 'default.jpg' });
+  }
+
   getTitle(): string {
     if (this.mode === 'create') return 'Add New Patient';
     if (this.mode === 'edit') return 'Edit Patient';
-    return 'Patient Details';
+    return 'Echocardiography Examination';
   }
 
   switchToEdit(): void {
@@ -121,7 +174,9 @@ export class PatientDetailsComponent implements OnInit {
     } else {
       this.patientForm.reset({
         status: 'Active',
+        imageResult: 'default.jpg',
       });
+      this.currentImagePreview = 'default.jpg';
     }
   }
 
@@ -139,6 +194,14 @@ export class PatientDetailsComponent implements OnInit {
     }
   }
 
+  // printDetails(): void {
+  //   if (typeof window.print()) {
+  //     setTimeout(() => {
+  //       this.showWhenToggle = !this.showWhenToggle;
+  //     }, 1000);
+  //   }
+  // }
+
   goBack(): void {
     this.router.navigate(['/patients']);
   }
@@ -148,5 +211,26 @@ export class PatientDetailsComponent implements OnInit {
       const control = this.patientForm.get(key);
       control?.markAsTouched();
     });
+  }
+
+  @HostListener('window:beforeprint', [])
+  onBeforePrint() {
+    console.log('🖨 Print dialog opened');
+    this.showWhenToggle = true;
+    // Optional: hide UI elements, adjust layout, etc.
+  }
+
+  @HostListener('window:afterprint', [])
+  onAfterPrint() {
+    console.log('✅ Print dialog closed (printed or canceled)');
+    this.showWhenToggle = false;
+    // Optional: reset layout, show hidden elements, etc.
+  }
+
+  printDetails() {
+    this.showWhenToggle = true;
+    setTimeout(() => {
+      window.print(); // Trigger native print dialog
+    }, 1000);
   }
 }

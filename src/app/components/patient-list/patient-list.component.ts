@@ -16,6 +16,11 @@ export class PatientListComponent implements OnInit {
   searchTerm: string = '';
   statusFilter: string = '';
 
+  // Modal properties
+  showImageModal: boolean = false;
+  modalImageSrc: string = 'default.jpg';
+  modalImageTitle: string = '';
+
   constructor(private patientService: PatientService, private router: Router) {}
 
   ngOnInit(): void {
@@ -24,6 +29,7 @@ export class PatientListComponent implements OnInit {
 
   loadPatients(): void {
     this.patients = this.patientService.getAllPatients();
+    console.table(this.patients);
     this.filteredPatients = this.patients;
   }
 
@@ -64,5 +70,24 @@ export class PatientListComponent implements OnInit {
       this.patientService.deletePatient(id);
       this.loadPatients();
     }
+  }
+
+  openImageModal(imageSrc: string, imageTitle: string): void {
+    console.log(imageSrc, imageTitle);
+
+    this.modalImageSrc = imageSrc;
+    this.modalImageTitle = imageTitle;
+    this.showImageModal = true;
+    document.body.style.overflow = 'hidden';
+  }
+
+  closeImageModal(): void {
+    this.showImageModal = false;
+    document.body.style.overflow = 'auto'; // Restore body scroll
+  }
+
+  onImageError(event: any): void {
+    // Fallback to default image if image fails to load
+    // event.target.src = 'assets/images/patients/default-avatar.jpg';
   }
 }

@@ -1,4 +1,14 @@
 <div class="patient-details-container">
+  @if (showWhenToggle) {
+  <div class="form-header">
+    <div class="logo"><img src="logo1.png" alt="" /></div>
+    <div class="contacts">
+      <div>+123-456-7890</div>
+      <div>hello&#64;cardiorad.com</div>
+      <div>www.cardioradx.com</div>
+    </div>
+  </div>
+  }
   <div class="header">
     <h1>{{ getTitle() }}</h1>
     <div class="header-actions">
@@ -22,6 +32,46 @@
 
   <div class="patient-form-container">
     <form [formGroup]="patientForm" (ngSubmit)="onSubmit()">
+      <div class="form-section">
+        <h3>Exam</h3>
+        <div class="image-upload-section">
+          <div class="current-image" *ngIf="currentImagePreview">
+            <img
+              [src]="currentImagePreview"
+              alt="Profile Preview"
+              class="image-preview"
+            />
+            <button
+              type="button"
+              (click)="removeImage()"
+              class="btn-remove-image"
+              *ngIf="mode !== 'view'"
+            >
+              ×
+            </button>
+          </div>
+
+          <div class="upload-area" *ngIf="mode !== 'view'">
+            <input
+              type="file"
+              #fileInput
+              (change)="onFileSelected($event)"
+              accept="image/*"
+              style="display: none"
+            />
+            <button
+              type="button"
+              (click)="fileInput.click()"
+              class="btn-upload"
+            >
+              📁 Choose Image
+            </button>
+            <p class="upload-hint">
+              Supported formats: JPG, PNG, GIF (Max: 2MB)
+            </p>
+          </div>
+        </div>
+      </div>
       <div class="form-section">
         <h3>Personal Information</h3>
         <div class="form-row">
@@ -105,7 +155,6 @@
               id="gender"
               formControlName="gender"
               class="form-control"
-              [disabled]="mode === 'view'"
               [class.error]="
                 patientForm.get('gender')?.invalid &&
                 patientForm.get('gender')?.touched
@@ -126,6 +175,192 @@
               Gender is required
             </div>
           </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="studyDate">Study Date</label>
+            <input
+              type="date"
+              id="studyDate"
+              formControlName="studyDate"
+              class="form-control"
+              [readonly]="mode === 'view'"
+              [class.error]="
+                patientForm.get('studyDate')?.invalid &&
+                patientForm.get('studyDate')?.touched
+              "
+            />
+            <div
+              *ngIf="
+                patientForm.get('studyDate')?.invalid &&
+                patientForm.get('studyDate')?.touched
+              "
+              class="error-message"
+            >
+              Study Date is required
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="bloodPressure">Blood Pressure</label>
+            <input
+              type="text"
+              id="bloodPressure"
+              formControlName="bloodPressure"
+              class="form-control"
+              [readonly]="mode === 'view'"
+              [class.error]="
+                patientForm.get('bloodPressure')?.invalid &&
+                patientForm.get('bloodPressure')?.touched
+              "
+            />
+            <div
+              *ngIf="
+                patientForm.get('bloodPressure')?.invalid &&
+                patientForm.get('bloodPressure')?.touched
+              "
+              class="error-message"
+            >
+              Blood Pressure is required
+            </div>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="rhythm">Rhythm</label>
+            <input
+              type="text"
+              id="rhythm"
+              formControlName="rhythm"
+              class="form-control"
+              [readonly]="mode === 'view'"
+              [class.error]="
+                patientForm.get('rhythm')?.invalid &&
+                patientForm.get('rhythm')?.touched
+              "
+            />
+            <div
+              *ngIf="
+                patientForm.get('rhythm')?.invalid &&
+                patientForm.get('rhythm')?.touched
+              "
+              class="error-message"
+            >
+              Rhythm is required
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="heartRate">Hear Rate</label>
+            <input
+              type="text"
+              id="heartRate"
+              formControlName="heartRate"
+              class="form-control"
+              [readonly]="mode === 'view'"
+              [class.error]="
+                patientForm.get('heartRate')?.invalid &&
+                patientForm.get('heartRate')?.touched
+              "
+            />
+            <div
+              *ngIf="
+                patientForm.get('heartRate')?.invalid &&
+                patientForm.get('heartRate')?.touched
+              "
+              class="error-message"
+            >
+              Heart Rate
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-section">
+        <h3>Procedure Staff</h3>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="ultrasoundTechnologist">Ultrasound Technologist</label>
+            <input
+              type="text"
+              id="ultrasoundTechnologist"
+              formControlName="ultrasoundTechnologist"
+              class="form-control"
+              [readonly]="mode === 'view'"
+              [class.error]="
+                patientForm.get('ultrasoundTechnologist')?.invalid &&
+                patientForm.get('ultrasoundTechnologist')?.touched
+              "
+            />
+            <div
+              *ngIf="
+                patientForm.get('ultrasoundTechnologist')?.invalid &&
+                patientForm.get('ultrasoundTechnologist')?.touched
+              "
+              class="error-message"
+            >
+              Ultrasound Technologist is required
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="orderingPhysician">Ordering Physician</label>
+            <input
+              type="text"
+              id="orderingPhysician"
+              formControlName="orderingPhysician"
+              class="form-control"
+              [readonly]="mode === 'view'"
+              [class.error]="
+                patientForm.get('orderingPhysician')?.invalid &&
+                patientForm.get('orderingPhysician')?.touched
+              "
+            />
+            <div
+              *ngIf="
+                patientForm.get('orderingPhysician')?.invalid &&
+                patientForm.get('orderingPhysician')?.touched
+              "
+              class="error-message"
+            >
+              Ordering Physician is required
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="indication">Indication</label>
+          <textarea
+            id="indication"
+            formControlName="indication"
+            class="form-control"
+            rows="3"
+            [readonly]="mode === 'view'"
+          ></textarea>
+        </div>
+
+        <div class="form-group">
+          <label for="findings">Findings</label>
+          <textarea
+            id="findings"
+            formControlName="findings"
+            class="form-control"
+            rows="3"
+            [readonly]="mode === 'view'"
+          ></textarea>
+        </div>
+
+        <div class="form-group">
+          <label for="conclusions">Conclusions</label>
+          <textarea
+            id="conclusions"
+            formControlName="conclusions"
+            class="form-control"
+            rows="3"
+            [readonly]="mode === 'view'"
+          ></textarea>
         </div>
       </div>
 
@@ -218,7 +453,6 @@
               id="status"
               formControlName="status"
               class="form-control"
-              [disabled]="mode === 'view'"
               [class.error]="
                 patientForm.get('status')?.invalid &&
                 patientForm.get('status')?.touched
@@ -262,6 +496,7 @@
       <button (click)="deleteCurrentPatient()" class="btn-danger">
         Delete Patient
       </button>
+      <button (click)="printDetails()" class="btn-secondary">Print</button>
     </div>
   </div>
 </div>
