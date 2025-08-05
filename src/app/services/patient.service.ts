@@ -9,7 +9,7 @@ import { Patient } from '../models/patient.model';
 })
 export class PatientService {
   private readonly STORAGE_KEY = 'radiology_patients';
-  production = 'https://cvis.vercel.app/data';
+  production = 'https://cvis.vercel.app/api/patients';
   url = 'http://localhost:3000/data';
 
   constructor(private http: HttpClient) {
@@ -19,7 +19,7 @@ export class PatientService {
   private async initializeSampleData(): Promise<void> {
     if (!localStorage.getItem(this.STORAGE_KEY)) {
       try {
-        const data = await fetch(this.url);
+        const data = await fetch(this.production);
         const samplePatients = (await data.json()) ?? [];
         this.savePatients(samplePatients);
       } catch (err) {
