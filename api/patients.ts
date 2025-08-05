@@ -1,5 +1,5 @@
-const fs = require('fs');
-const path = require('path');
+import fs from 'fs';
+import path from 'path';
 
 export default function handler(req: any, res: any) {
   const filePath = path.join(process.cwd(), 'mock-data', 'db.json');
