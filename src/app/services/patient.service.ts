@@ -1,31 +1,44 @@
 import { Injectable } from '@angular/core';
 // import TEST_DATA from '../data.json';
 import { firstValueFrom } from 'rxjs';
-import { HttpClient } from '@angular/common/http';
 import { Patient } from '../models/patient.model';
+import { HttpClient, HttpParams } from '@angular/common/http';
+import { data } from '../../../db.json';
+import { mockData } from '../../../src/mock-data';
 
 @Injectable({
   providedIn: 'root',
 })
 export class PatientService {
   private readonly STORAGE_KEY = 'radiology_patients';
-  production = 'https://cvis.vercel.app/api/patients';
-  url = 'http://localhost:3000/data';
+  // data = require('../../../db.json');
+  // production = 'https://cvis.vercel.app/api/patients';
+  // url = 'http://localhost:3000/data';
+  // testApiUrl =
+  //   'https://nodejs-serverless-function-express-devlesters-projects.vercel.app/api/hello';
 
   constructor(private http: HttpClient) {
     this.initializeSampleData();
+    console.log('from constructor', data);
   }
 
-  private async initializeSampleData(): Promise<void> {
+  // sayHello(name: string) {
+  //   const params = new HttpParams().set('name', name);
+  //   return this.http.get<{ message: string }>(this.testApiUrl, { params });
+  // }
+
+  private initializeSampleData(): void {
     if (!localStorage.getItem(this.STORAGE_KEY)) {
-      try {
-        const data = await fetch(this.production);
-        const samplePatients = (await data.json()) ?? [];
-        this.savePatients(samplePatients);
-      } catch (err) {
-        console.log('Failed to load mock data:', err);
-        this.savePatients([]);
-      }
+      const samplePatients = mockData;
+      this.savePatients(samplePatients as Patient[]);
+      // try {
+      //   const data = await fetch(this.production);
+      //   const samplePatients = (await data.json()) ?? [];
+      //   this.savePatients(samplePatients);
+      // } catch (err) {
+      //   console.log('Failed to load mock data:', err);
+      //   this.savePatients([]);
+      // }
       // try {
       //   const response = await firstValueFrom(
       //     this.http.get<{ data: Patient[] }>('assets/mock-data.json')

@@ -16,7 +16,16 @@ export class PatientDetailsComponent implements OnInit {
   mode: 'view' | 'edit' | 'create' = 'create';
   isEditing = false;
   patientId: string | null = null;
-  currentImagePreview: string = '';
+  imageList: string[] = [
+    'eco1.jpg',
+    'eco2.jpg',
+    'eco3.jpg',
+    'eco4.jpg',
+    'eco5.jpg',
+    'eco6.jpg',
+  ];
+  currentImagePreview: string =
+    this.imageList[Math.floor(Math.random() * this.imageList.length)];
   showWhenToggle: boolean = false;
 
   constructor(
@@ -69,8 +78,8 @@ export class PatientDetailsComponent implements OnInit {
       this.loadPatient();
     } else {
       // Set default image for new patients
-      this.currentImagePreview = 'eco2.jpg';
-      this.patientForm.patchValue({ imageResult: 'eco2.jpg' });
+      this.currentImagePreview = this.currentImagePreview;
+      this.patientForm.patchValue({ imageResult: this.currentImagePreview });
     }
   }
 
@@ -79,7 +88,9 @@ export class PatientDetailsComponent implements OnInit {
       const patient = this.patientService.getPatientById(this.patientId);
       if (patient) {
         this.patientForm.patchValue(patient);
-        this.currentImagePreview = patient.imageResult || 'eco2.jpg';
+        this.currentImagePreview
+          ? this.currentImagePreview
+          : patient.imageResult;
       } else {
         alert('Patient not found!');
         this.goBack();
@@ -113,8 +124,8 @@ export class PatientDetailsComponent implements OnInit {
   }
 
   removeImage(): void {
-    this.currentImagePreview = 'eco2.jpg';
-    this.patientForm.patchValue({ profileIMage: 'eco2.jpg' });
+    this.currentImagePreview = '';
+    this.patientForm.patchValue({ imageResult: this.currentImagePreview });
   }
 
   getTitle(): string {
@@ -174,9 +185,9 @@ export class PatientDetailsComponent implements OnInit {
     } else {
       this.patientForm.reset({
         status: 'Active',
-        imageResult: 'eco2.jpg',
+        imageResult: this.currentImagePreview,
       });
-      this.currentImagePreview = 'eco2.jpg';
+      this.currentImagePreview = '';
     }
   }
 
